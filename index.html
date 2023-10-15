@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+// takes in user's choice and computer choice, compare
+// the choices to check who wins, 
+// rock beats scissor, scissor beats paper, 
+// paper beats rock, else it ties
+
+
+// create a check function to compare the objects for win
+
+
+// function to take user's choice by prompt
+// convert to uppercase and check which choice and
+// set the user's choice value for comparison later
+function getUserChoice(){
+    let choice = prompt("Rock, Paper, or Scissor?");
+    choice = choice.toLowerCase();
+    firstLetter = choice.charAt(0);
+    capitalized = firstLetter.toUpperCase();
+    choice = choice.replace(firstLetter, capitalized);
+    
+    if (choice === "Rock" || choice === "Paper" || choice === "Scissor"){
+        return choice;
+    } else {
+        return "invalid";
+    }
+
+
+}
+
+// function to get computer's choice by random number then convert
+// with if statements for rock as zero and paper as one
+// scissor as two then set new value for computer choice
+function getComputerChoice(){
+    let choice = Math.floor(Math.random() * 3);
+
+    if (choice === 0){
+        return choice = "Rock";
+    } else if (choice === 1){
+        return choice = "Paper";
+    } else {
+        return choice = "Scissor";
+    }
+}
+
+// function to check winner, compare with if statements
+function checkWinner(userChoice, computerChoice){
+    let user = "user";
+    let computer = "computer";
+    if(userChoice === computerChoice){
+        return "Tie";
+    } else if(userChoice === "Rock"){
+        if (computerChoice === "Paper"){
+            //user lost
+            return computer;
+        } else {
+            //user won
+            return user;
+        }
+    } else if(userChoice === "Paper"){
+        if (computerChoice === "Scissor"){
+            //user lost
+            return computer;
+        } else {
+            //user won
+            return user;
+        }
+    } else if(userChoice === "Scissor"){
+        if (computerChoice === "Rock"){
+            //user lost
+            return computer;
+        } else {
+            //user won
+            return user;
+        }
+    } else {
+        // failed
+        return "invalid";
+    }
+}
+
+// function to start the rounds and play the game
+function game(){
+    let userChoice = getUserChoice();
+    let computerChoice = getComputerChoice();
+    let winner = checkWinner(userChoice, computerChoice);
+    if(winner === "computer"){
+        console.log(`The winner is Computer. Computer used ${computerChoice} to beat ${userChoice} used by User.` )
+    } else if(winner === "user"){
+        console.log(`The winner is User. User used ${userChoice} to beat ${computerChoice} used by Computer.`)
+    } else if(winner === "tie"){
+        console.log(`The game is a Tie. Computer used ${computerChoice} and ${userChoice} used by User.`)
+    } else {
+        console.log("error, invalid input.");
+    }
+    return(winner);
+}
+
+// start the game
+let userPoint = 0;
+let computerPoint = 0;
+let tiePoint = 0;
+let totalPoint = 0;
+
+while(totalPoint < 5){
+    
+    let winner = game();
+    if(winner === "computer"){
+        computerPoint++;
+    } else if(winner === "user"){
+        userPoint++;
+    } else if(winner === "tie"){
+        tiePoint++;
+    } else {
+        totalPoint--;
+    }
+    totalPoint++;
+
+}
+
+console.log(`User has won ${userPoint} games out of ${totalPoint} games `);
+console.log(`Computer has won ${computerPoint} games out of ${totalPoint} games `);
+    </script>
+</body>
+</html>
