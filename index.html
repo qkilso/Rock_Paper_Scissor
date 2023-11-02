@@ -4,23 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="mystyle.css">
 </head>
+
 <body>
+
+
+    <div id="game-table">
+        <div class="point-console">
+            <p>
+                user points:
+            </p>
+            <p id="user-point">
+                0
+            </p>
+        </div>
+
+        <div id="middle-console" >
+            <h3 id="text-describe">winners declared</h3>
+            <h1  id="text-console">Rock Paper or Scissor? :D</h1>
+            
+            <div id="choices">
+                <button id="rock">Rock</button>
+                <button id="paper">Paper</button>
+                <button id="scissor">Scissor</button>
+            </div>
+        </div>
+
+        <div class="point-console">
+            <p>
+                computer points:
+            </p>
+
+            <p id="computer-point">
+                0
+            </p>
+        </div>
+
+        
+    </div>
+
+</body>
+
+<script src="javascript.js"></script>
     <script>
-// takes in user's choice and computer choice, compare
-// the choices to check who wins, 
-// rock beats scissor, scissor beats paper, 
-// paper beats rock, else it ties
+const body = document.body;
 
-
-// create a check function to compare the objects for win
-
-
-// function to take user's choice by prompt
-// convert to uppercase and check which choice and
-// set the user's choice value for comparison later
-function getUserChoice(){
-    let choice = prompt("Rock, Paper, or Scissor?");
+function getUserChoice(choice){
+    
     choice = choice.toLowerCase();
     firstLetter = choice.charAt(0);
     capitalized = firstLetter.toUpperCase();
@@ -29,15 +60,14 @@ function getUserChoice(){
     if (choice === "Rock" || choice === "Paper" || choice === "Scissor"){
         return choice;
     } else {
+        console.log("letter invalid");
         return "invalid";
     }
 
 
 }
 
-// function to get computer's choice by random number then convert
-// with if statements for rock as zero and paper as one
-// scissor as two then set new value for computer choice
+
 function getComputerChoice(){
     let choice = Math.floor(Math.random() * 3);
 
@@ -50,12 +80,12 @@ function getComputerChoice(){
     }
 }
 
-// function to check winner, compare with if statements
+
 function checkWinner(userChoice, computerChoice){
     let user = "user";
     let computer = "computer";
     if(userChoice === computerChoice){
-        return "Tie";
+        return "tie";
     } else if(userChoice === "Rock"){
         if (computerChoice === "Paper"){
             //user lost
@@ -82,51 +112,133 @@ function checkWinner(userChoice, computerChoice){
         }
     } else {
         // failed
+        console.log("no one won???")
         return "invalid";
     }
 }
 
-// function to start the rounds and play the game
-function game(){
-    let userChoice = getUserChoice();
+
+function game(userChoice){
+    userChoice = getUserChoice(userChoice);
+    
     let computerChoice = getComputerChoice();
     let winner = checkWinner(userChoice, computerChoice);
-    if(winner === "computer"){
-        console.log(`The winner is Computer. Computer used ${computerChoice} to beat ${userChoice} used by User.` )
-    } else if(winner === "user"){
-        console.log(`The winner is User. User used ${userChoice} to beat ${computerChoice} used by Computer.`)
-    } else if(winner === "tie"){
-        console.log(`The game is a Tie. Computer used ${computerChoice} and ${userChoice} used by User.`)
-    } else {
-        console.log("error, invalid input.");
-    }
+    let textDescribe = body.querySelector('#text-describe');
+    textDescribe.textContent = (`Computer chose (${computerChoice})` );
     return(winner);
 }
 
-// start the game
+
 let userPoint = 0;
 let computerPoint = 0;
 let tiePoint = 0;
 let totalPoint = 0;
-
-while(totalPoint < 5){
+let stopGame = false;
+function playGame(userChoice){
     
-    let winner = game();
+    let winner = game(userChoice);
+    let userPointConsole = body.querySelector('#user-point');
+    let computerPointConsole = body.querySelector('#computer-point');
     if(winner === "computer"){
         computerPoint++;
+        computerPointConsole.textContent = computerPoint;
+        if(computerPoint === 5){
+            stopGame = true;
+            return "computerWon";
+        }
     } else if(winner === "user"){
         userPoint++;
+        userPointConsole.textContent = userPoint;
+        if(userPoint === 5){
+            stopGame = true;
+            return "userWon";
+        }
     } else if(winner === "tie"){
         tiePoint++;
-    } else {
-        totalPoint--;
     }
     totalPoint++;
+    return winner;
 
 }
 
-console.log(`User has won ${userPoint} games out of ${totalPoint} games `);
-console.log(`Computer has won ${computerPoint} games out of ${totalPoint} games `);
+function displayWinner(winner){
+    const textConsole = body.querySelector('#text-console');
+    
+    switch(true){
+        case (winner == 'user'):
+            textConsole.textContent = 'YOU WON!';
+            break;
+        case (winner == 'computer'):
+            textConsole.textContent = 'YOU LOST';
+            break;
+            
+        case (winner == 'tie'):
+            textConsole.textContent= 'TIE';
+            break;
+        case (winner === "computerWon"):
+            textConsole.textContent = 'Game Over, you lost';
+            
+            break;
+        case (winner === 'userWon'):
+            textConsole.textContent = 'You won the Game, good job!';
+            break;
+    }
+    
+}
+
+
+
+function playAgain(stopGame){
+    console.log(stopGame);
+    if(stopGame){
+        
+        const choices = body.querySelector('#choices');
+        let playAgainButton = document.createElement('button');
+        playAgainButton.textContent = "Play Again";
+        choices.parentNode.insertBefore(playAgainButton, choices);
+        
+        playAgainButton.addEventListener('click', playAgainClicked(this.playAgain(false)));
+
+      
+    } else {
+        playAgainButton.removeEventListener('click', playAgainClicked, false);
+    }
+}
+function removeClick(thisObject, thisFunction, stopGame){
+    if(stopGame){
+        
+        playAgain(stopGame);
+        thisObject.removeEventListener('click', thisFunction, false);
+    }
+}
+
+function playAgainClicked(thisObject){
+            stopGame = false;
+            userPoint = 0;
+            computerPoint = 0;
+            totalPoint = 0;
+            tiePoint = 0;
+            if(thisObject){
+                console.log(thisObject);
+            }
+
+
+            rock.addEventListener('click', function rockClicked() { if(stopGame){removeClick(this, rockClicked, stopGame);return;};let winner = playGame("rock"); displayWinner(winner); });
+    const paper = body.querySelector('#paper');
+    paper.addEventListener('click', function paperClicked() { if(stopGame){removeClick(this, paperClicked, stopGame);return;};let winner = playGame("paper"); displayWinner(winner);});
+    const scissor = body.querySelector('#scissor');
+    scissor.addEventListener('click', function scissorClicked() { if(stopGame){removeClick(this, scissorClicked, stopGame);return;};let winner = playGame("scissor"); displayWinner(winner);});
+
+}
+let winner = '';
+let num = 0;
+if(num === 0){
+playAgainClicked();
+num++;
+}
+
+
     </script>
-</body>
+
+
 </html>
