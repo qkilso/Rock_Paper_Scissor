@@ -5,77 +5,122 @@ body {
     justify-content: center;
 }
 
-#game-table {
-    background-color: gold;
+.console {
+    background-color: lightskyblue;
     display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main {
+    flex-direction: row;
+    border: 5px black solid;
+    border-radius: 15%;
     width: 800px;
-    height: 400px;
-    align-items: flex-start;
-    border: solid black;
-    border-radius: 10px;
-    justify-content: space-around;
+    height: 600px;
 }
 
-#choices {
-    display: flex;
-    width: 400px;
-    height: 200px;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-button {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-    border: black;
-    border-radius: 50%;
-    font-size: 20px;
-    background-color: black;
+.left {
+    justify-content: flex-start;
+    align-items: center;
+    background-color: blue;
     color: white;
 }
 
-p {
-    font-size: 30px;
-    font-weight: 400;
+.middle {
+    width: 50%;
+    justify-content: space-evenly;
+    border-left: solid black 1px;    
+    border-right: solid black 1px;    
+}
+
+.right {
+    justify-content: flex-start;
+    align-items: center;
+    background-color: red;
+    color: white;
+}
+
+h1 {
+    font-size: 40px;
+    font-style: italic;
+}
+
+.point {
+    margin-top: 50px;
+}
+
+#descriptions_holder, 
+#buttons_holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 20px;
+}
+
+
+
+.description {
+    height: 60px;
+    width: 333px;
+    margin:0 8% 0 8%;
+    display: flex;
+    justify-content: center;
+}
+
+.win_status_holder {
+    align-self: center;
+    height: 25px;
+    border: 1px black solid;
+    border-radius: 10%;
+    visibility: hidden;
+    background-color: white;
+    padding: 10px;
+}
+
+#play {
+    border-radius: 10%;
+    height: fit-content;
     width: fit-content;
+    padding: 10px;
+    background-color: black;
+    font-size: 20px;
+    color: white;
+    visibility: visible;
+
 }
 
-.point-console {
-    height: 100%;
-    width: auto;
+#play:hover {
+    background-color: white;
+    color: black;
+
+}
+
+#play_holder {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-    flex-grow: 0;
-
+    justify-content: center;
+    height: 45px;
+    width: 400px;
 }
 
-#computer-point,
-#user-point {
-    font-size: 50px;
-    font-weight: 800;
+#buttons_holder {
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 0px;
+    border-top: black 1px solid;
 }
 
-h3 {
-    display: flex;
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
-#middle-console {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    flex-grow: 0;
-    width: 420px;
-    height: 400px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#text-describe {
-    display: flex;
-    height: 50px;
+button {
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 1000;
+    border: black 1px solid;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
 }
